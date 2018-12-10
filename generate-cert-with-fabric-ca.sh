@@ -17,7 +17,7 @@ if [ $# -eq 4 ]; then
    caServerIP="$(cut -d':' -f1 <<<"$4")"
    caServerPort="$(cut -d':' -f2 <<<"$4")"
 else
-   echo "Starting fabric-ca-server locally for ${orgName}..."
+   echo "Starting fabric-ca-server natively for ${orgName}..."
    caVersion=`fabric-ca-server version | awk '/Version:/{print $2}'`
    if [ "$caVersion" != "1.1.0" ]; then
       echo "Only support 1.1.0 version, please upgrade your fabric-ca-server"
@@ -30,7 +30,7 @@ else
    fi
    mkdir fabric-ca-server-${orgName}
    cd fabric-ca-server-${orgName}
-   fabric-ca-server start -b admin:adminpw > fabric-ca-server.log 2>&1 &
+   nohup fabric-ca-server start -b admin:adminpw > fabric-ca-server.log 2>&1 &
    sleep 10
    cd $currentDir
    caServerIP="localhost"
